@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Row, Col, Button, Input } from 'antd'
 import { Task } from '../App'
+import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
   placeholder: string
@@ -13,6 +14,7 @@ const TodoForm: React.FC<Props> = (Props) => {
 
   const onFinish = (): void => {
     Props.handleSubmit({
+      uuid: uuidv4(),
       name: form.getFieldValue('taskName'),
       completed: false,
       createDate: new Date()

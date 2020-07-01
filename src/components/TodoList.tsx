@@ -8,6 +8,8 @@ interface Props {
   cardTitle: string
   // true: todo false: completed
   inProgress?: boolean
+  handleStatusChange: (uuid: string) => void
+  handleDelete: (uuid: string) => void
 }
 
 const TodoList: React.FC<Props> = (Props) => {
@@ -25,6 +27,8 @@ const TodoList: React.FC<Props> = (Props) => {
         renderItem={(task) => (
           <TodoListItem
             task={task}
+            onStatusChange={Props.handleStatusChange}
+            onDelete={Props.handleDelete}
           />
         )}
       />
