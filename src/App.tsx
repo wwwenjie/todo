@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.sass'
 import { Row, Col } from 'antd'
 import TodoTitle from './components/TodoTitle'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
+import { getStorage, setStorage } from './utils/storage'
 
 export interface Task {
   uuid: string
@@ -14,15 +15,11 @@ export interface Task {
 }
 
 const App: React.FC = () => {
-  const [taskList, setTaskList] = useState<Task[]>([
-    {
-      uuid: 'uuid',
-      name: 'new task',
-      completed: true,
-      createDate: new Date(),
-      expiredDate: new Date()
-    }
-  ])
+  const [taskList, setTaskList] = useState<Task[]>(getStorage())
+
+  useEffect(() => {
+    setStorage(taskList)
+  })
 
   const handleSubmit = (task: Task): void => {
     setTaskList(taskList.concat([task]))
@@ -43,6 +40,22 @@ const App: React.FC = () => {
     }))
   }
 
+  const todoListComponents: Array<{
+    key: string
+    cardTitle: string
+    inProgress: boolean
+  }> = [
+    {
+      key: 'todoList',
+      cardTitle: 'Todo',
+      inProgress: true
+    }, {
+      key: 'CompletedList',
+      cardTitle: 'Completed',
+      inProgress: false
+    }
+  ]
+
   const componentList: JSX.Element[] = [
     <TodoTitle
       key='title'
@@ -54,21 +67,18 @@ const App: React.FC = () => {
       buttonText='Add'
       handleSubmit={handleSubmit}
     />,
-    <TodoList
-      key='todoList'
-      taskList={taskList}
-      cardTitle='Todo'
-      inProgress
-      handleStatusChange={handleStatusChange}
-      handleDelete={handleDelete}
-    />,
-    <TodoList
-      key='CompletedList'
-      taskList={taskList}
-      cardTitle='Completed'
-      handleStatusChange={handleStatusChange}
-      handleDelete={handleDelete}
-    />
+    ...todoListComponents.map(list => {
+      return (
+        <TodoList
+          key={list.key}
+          taskList={taskList}
+          cardTitle={list.cardTitle}
+          inProgress={list.inProgress}
+          handleStatusChange={handleStatusChange}
+          handleDelete={handleDelete}
+        />
+      )
+    })
   ]
 
   return (
