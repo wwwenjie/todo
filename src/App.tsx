@@ -1,23 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.sass'
 import { Row, Col } from 'antd'
 import TodoTitle from './components/TodoTitle'
-import TodoInput from './components/TodoInput'
+import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
+export interface Task {
+  name: string
+  completed: boolean
+  createDate: Date
+  expiredDate?: Date
+}
+
 const App: React.FC = () => {
+  const [taskList, setTaskList] = useState<Task[]>([
+    {
+      name: 'new task',
+      completed: false,
+      createDate: new Date(),
+      expiredDate: new Date()
+    }
+  ])
+
+  const handleSubmit = (task: Task): void => {
+    setTaskList(taskList.concat([task]))
+  }
+
   const componentList: JSX.Element[] = [
     <TodoTitle
       key='title'
       title='Todo List'
     />,
-    <TodoInput
+    <TodoForm
       key='input'
       placeholder='Add a task'
       buttonText='Add'
+      handleSubmit={handleSubmit}
     />,
     <TodoList
       key='list'
+      taskList={taskList}
     />
   ]
 

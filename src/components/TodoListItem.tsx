@@ -1,14 +1,26 @@
 import React from 'react'
-import { List } from 'antd'
+import { List, DatePicker } from 'antd'
+import { Task } from '../App'
 
-const TodoListItem: React.FC = () => {
+const { RangePicker } = DatePicker
+
+interface Props {
+  task: Task
+}
+
+const TodoListItem: React.FC<Props> = (Props) => {
   return (
     <List.Item
-      actions={[
-      ]}
+      actions={[]}
       className='list-item'
     >
-      Todo List
+      {Props.task.name}
+      {/* todo: date support */}
+      {/* <RangePicker */}
+      {/*  size='small' */}
+      {/*  bordered={false} */}
+      {/*  className='ml-2' */}
+      {/* /> */}
     </List.Item>
   )
 }

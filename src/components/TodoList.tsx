@@ -1,16 +1,10 @@
 import React from 'react'
 import { List, Card } from 'antd'
 import TodoListItem from './TodoListItem'
-
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.'
-]
+import { Task } from '../App'
 
 interface Props {
+  taskList: Task[]
   cardTitle?: string
 }
 
@@ -22,9 +16,11 @@ const TodoList: React.FC<Props> = (Props) => {
       >
         <List
           size='large'
-          dataSource={data}
-          renderItem={() => (
-            <TodoListItem />
+          dataSource={Props.taskList}
+          renderItem={(task) => (
+            <TodoListItem
+              task={task}
+            />
           )}
         />
       </Card>
@@ -34,9 +30,11 @@ const TodoList: React.FC<Props> = (Props) => {
       >
         <List
           size='large'
-          dataSource={data}
-          renderItem={() => (
-            <TodoListItem />
+          dataSource={Props.taskList}
+          renderItem={(task) => (
+            <TodoListItem
+              task={task}
+            />
           )}
         />
       </Card>
