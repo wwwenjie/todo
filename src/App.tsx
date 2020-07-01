@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [taskList, setTaskList] = useState<Task[]>([
     {
       name: 'new task',
-      completed: false,
+      completed: true,
       createDate: new Date(),
       expiredDate: new Date()
     }
@@ -38,8 +38,15 @@ const App: React.FC = () => {
       handleSubmit={handleSubmit}
     />,
     <TodoList
-      key='list'
+      key='todoList'
       taskList={taskList}
+      cardTitle='Todo'
+      inProgress
+    />,
+    <TodoList
+      key='CompletedList'
+      taskList={taskList}
+      cardTitle='Completed'
     />
   ]
 
