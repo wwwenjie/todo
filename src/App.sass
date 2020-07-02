@@ -27,13 +27,16 @@ body
     &-item
       width: 100%
       @media(max-width: $xs)
-        padding-left: 0!important
-        padding-right: 0!important
+        padding-left: 0 !important
+        padding-right: 0 !important
       &-container
         width: 100%
       &-input
         border: none
         &:focus
           border: 1px solid $primary
+          // handle edit completed task
+          color: inherit !important
+          text-decoration: none !important
         &:hover
-          box-shadow: 0 0 0 2px rgba($primary, 0.2)!important
+          box-shadow: 0 0 0 2px rgba($primary, 0.2) !important

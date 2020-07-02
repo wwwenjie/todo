@@ -34,7 +34,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
             defaultValue={Props.task.name}
             value={valueState}
             type='text'
-            className='todo-list-item-input mx-2'
+            className={`todo-list-item-input mx-2 ${Props.task.completed ? 'text-decoration-line-through grey--text' : ''}`}
             onPressEnter={() => {
               inputRef.current?.blur()
             }}

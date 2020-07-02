@@ -5,6 +5,7 @@ import TodoTitle from './components/TodoTitle'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import { getTaskListStorage, setTaskListStorage } from './utils/storage'
+import { message } from 'antd/es'
 
 export interface Task {
   uuid: string
@@ -26,29 +27,40 @@ const App: React.FC = () => {
     setTaskListStorage(taskList)
   }, [taskList])
 
-  const handleSubmit = (task: Task): void => {
+  const handleSubmit = async (task: Task): Promise<void> => {
     setTaskList([task].concat(taskList))
+    await message.success('Task added')
   }
 
-  const handleStatusChange = (uuid: string): void => {
+  const handleStatusChange = async (uuid: string): Promise<void> => {
+    let flag: boolean|undefined
     setTaskList(taskList.map(task => {
       if (task.uuid === uuid) {
         task.completed = !task.completed
+        flag = task.completed
       }
       return task
     }))
+    if (flag !== undefined) {
+      await message.success(flag ? 'Task complete!' : 'Task move to todo')
+    } else {
+      await message.error(`Error: didn't find uuid ${uuid} in task list`)
+      console.error(uuid)
+    }
   }
 
-  const handleDelete = (uuid: string): void => {
+  const handleDelete = async (uuid: string): Promise<void> => {
     setTaskList(taskList.filter(task => {
       return task.uuid !== uuid
     }))
+    await message.warn('Task deleted')
   }
 
-  const handleSave = (task: Task): void => {
+  const handleSave = async (task: Task): Promise<void> => {
     setTaskList(taskList.map(taskMap => {
       return taskMap.uuid === task.uuid ? task : taskMap
     }))
+    await message.success('Task updated')
   }
 
   const todoListComponents: Array<{
@@ -61,7 +73,7 @@ const App: React.FC = () => {
       cardTitle: 'Todo',
       inProgress: true
     }, {
-      key: 'CompletedList',
+      key: 'completedList',
       cardTitle: 'Completed',
       inProgress: false
     }
@@ -73,7 +85,7 @@ const App: React.FC = () => {
       title='Todo List'
     />,
     <TodoForm
-      key='input'
+      key='form'
       placeholder='Add a task'
       buttonText='Add'
       handleSubmit={handleSubmit}
