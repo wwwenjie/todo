@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { List, Button, Input, Tooltip } from 'antd'
 import { Task } from '../App'
-import { CheckOutlined, ClockCircleOutlined, CloseOutlined } from '@ant-design/icons/lib'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons/lib'
 
 interface Props {
   task: Task
@@ -22,10 +22,9 @@ const TodoListItem: React.FC<Props> = (Props) => {
     <List.Item className='todo-list-item'>
       <div className='d-flex justify-space-between align-center todo-list-item-container'>
         <Button
-          key='status'
-          type='ghost'
           shape='circle'
-          icon={Props.task.completed ? <CheckOutlined /> : <ClockCircleOutlined />}
+          icon={<CheckOutlined style={{ color: 'white' }} />}
+          className={Props.task.completed ? 'todo-list-item-button-complete' : 'todo-list-item-button-todo'}
           onClick={() => { Props.onStatusChange(Props.task.uuid) }}
         />
         <Tooltip placement='topLeft' title='Edit Task' color='purple'>
@@ -51,7 +50,6 @@ const TodoListItem: React.FC<Props> = (Props) => {
           />
         </Tooltip>
         <Button
-          key='delete'
           type='primary'
           shape='circle'
           icon={<CloseOutlined />}
