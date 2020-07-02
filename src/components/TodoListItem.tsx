@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TodoListItem: React.FC<Props> = (Props) => {
-  const [valueState, setValueState] = useState<string>(Props.task.name)
+  const [valueState, setValueState] = useState<string>('')
   const inputRef = useRef<Input>(null)
 
   useEffect(() => {
