@@ -1,0 +1,14 @@
+org: KingNetwork # (optional) serverless dashboard org. default is the first org you created during signup.
+app: Todo List # (optional) serverless dashboard app. default is the same as the name property.
+stage: dev # (optional) serverless dashboard stage. default is dev.
+component: website
+name: Todo List # (required) name of your website component instance.
+
+inputs:
+  src:
+    src: ./build # (optional) path to the source folder. default is a hello world app.
+    index: index.html
+    error: index.html
+  region: ap-chengdu
+  bucketName: todo-list
+  protocol: https
