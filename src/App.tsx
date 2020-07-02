@@ -4,7 +4,7 @@ import { Row, Col } from 'antd'
 import TodoTitle from './components/TodoTitle'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
-import { getStorage, setStorage } from './utils/storage'
+import { getTaskListStorage, setTaskListStorage } from './utils/storage'
 
 export interface Task {
   uuid: string
@@ -15,14 +15,19 @@ export interface Task {
 }
 
 const App: React.FC = () => {
-  const [taskList, setTaskList] = useState<Task[]>(getStorage())
+  // todo: avoid repeated get
+  const [taskList, setTaskList] = useState<Task[]>([])
 
   useEffect(() => {
-    setStorage(taskList)
-  })
+    setTaskList(getTaskListStorage())
+  }, [])
+
+  useEffect(() => {
+    setTaskListStorage(taskList)
+  }, [taskList])
 
   const handleSubmit = (task: Task): void => {
-    setTaskList(taskList.concat([task]))
+    setTaskList([task].concat(taskList))
   }
 
   const handleStatusChange = (uuid: string): void => {
@@ -37,6 +42,12 @@ const App: React.FC = () => {
   const handleDelete = (uuid: string): void => {
     setTaskList(taskList.filter(task => {
       return task.uuid !== uuid
+    }))
+  }
+
+  const handleSave = (task: Task): void => {
+    setTaskList(taskList.map(taskMap => {
+      return taskMap.uuid === task.uuid ? task : taskMap
     }))
   }
 
@@ -76,6 +87,7 @@ const App: React.FC = () => {
           inProgress={list.inProgress}
           handleStatusChange={handleStatusChange}
           handleDelete={handleDelete}
+          handleSave={handleSave}
         />
       )
     })

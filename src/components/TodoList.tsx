@@ -10,6 +10,7 @@ interface Props {
   inProgress?: boolean
   handleStatusChange: (uuid: string) => void
   handleDelete: (uuid: string) => void
+  handleSave: (task: Task) => void
 }
 
 const TodoList: React.FC<Props> = (Props) => {
@@ -24,11 +25,12 @@ const TodoList: React.FC<Props> = (Props) => {
         dataSource={Props.taskList.filter(task => {
           return Props.inProgress === true ? !task.completed : task.completed
         })}
-        renderItem={(task) => (
+        renderItem={task => (
           <TodoListItem
             task={task}
             onStatusChange={Props.handleStatusChange}
             onDelete={Props.handleDelete}
+            onSave={Props.handleSave}
           />
         )}
       />

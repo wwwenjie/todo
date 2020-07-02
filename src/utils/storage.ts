@@ -1,10 +1,16 @@
-export function setStorage (value: any, key = 'taskList'): void{
+import { Task } from '../App'
+
+export function setTaskListStorage (value: any, key = 'taskList'): void{
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getStorage (key = 'taskList'): any|[] {
+export function getTaskListStorage (key = 'taskList'): Task[]|[] {
   if (localStorage.getItem(key) === null) {
     localStorage.setItem(key, JSON.stringify([]))
   }
-  return JSON.parse(localStorage.getItem(key) as string)
+  const array: Task[] = JSON.parse(localStorage.getItem(key) as string)
+  array.sort((a, b) => {
+    return a.createDate <= b.createDate ? 1 : -1
+  })
+  return array
 }
