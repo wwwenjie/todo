@@ -97,9 +97,9 @@ const App: React.FC = () => {
           taskList={taskList}
           cardTitle={list.cardTitle}
           inProgress={list.inProgress}
-          handleStatusChange={handleStatusChange}
-          handleDelete={handleDelete}
-          handleSave={handleSave}
+          onStatusChange={handleStatusChange}
+          onDelete={handleDelete}
+          onSave={handleSave}
         />
       )
     }),

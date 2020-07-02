@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { List, Button, Input, Tooltip } from 'antd'
+import { List, Button, Input, Tooltip, Popconfirm } from 'antd'
 import { Task } from '../App'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons/lib'
 
@@ -49,13 +49,20 @@ const TodoListItem: React.FC<Props> = (Props) => {
             }}
           />
         </Tooltip>
-        <Button
-          type='primary'
-          shape='circle'
-          icon={<CloseOutlined />}
-          danger
-          onClick={() => { Props.onDelete(Props.task.uuid) }}
-        />
+        <Popconfirm
+          title='Are you sure delete this task?'
+          placement='topRight'
+          okText='Yes'
+          cancelText='No'
+          onConfirm={() => { Props.onDelete(Props.task.uuid) }}
+        >
+          <Button
+            type='primary'
+            shape='circle'
+            icon={<CloseOutlined />}
+            danger
+          />
+        </Popconfirm>
       </div>
     </List.Item>
   )
