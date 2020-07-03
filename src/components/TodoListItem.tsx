@@ -27,6 +27,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
     <List.Item className='todo-list-item'>
       <div className='d-flex justify-space-between align-center todo-list-item-container'>
         <Button
+          data-testid='test-status-button'
           shape='circle'
           icon={<CheckOutlined style={{ color: 'white' }} />}
           className={Props.task.completed ? 'todo-list-item-button-complete' : 'todo-list-item-button-todo'}
@@ -36,6 +37,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
         />
         <Tooltip placement='topLeft' title='Edit Task' color='purple'>
           <div
+            data-testid='test-div'
             style={{ width: '100%' }}
             className='mx-2'
             onFocus={() => {
@@ -74,6 +76,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
             />
             {(showDateState || Props.task.expiredDate !== undefined) &&
               <RangePicker
+                data-testid='test-date'
                 inputReadOnly
                 size='small'
                 bordered={false}
