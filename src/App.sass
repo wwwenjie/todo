@@ -37,7 +37,7 @@ body
       &-container
         width: 100%
       &-input
-        border: none
+        border: 1px solid transparent
         &:focus
           border: 1px solid $primary
           // handle edit completed task
@@ -52,3 +52,35 @@ body
         &:hover
           background-color: $primary !important
 
+// fix clear button position
+.ant-picker-clear
+  right: 7px !important
+
+// responsive for mobile
+.ant-card-body
+  @media (max-width: $xs)
+    padding-top: 0 !important
+    padding-bottom: 0 !important
+
+.alert-enter
+  opacity: 0
+  transform: scale(0.9)
+
+.alert-enter-active
+  opacity: 1
+  transform: translateX(0)
+  transition: opacity 300ms, transform 300ms
+
+.alert-exit
+  opacity: 1
+
+.alert-exit-active
+  opacity: 0
+  transform: scale(0.9)
+  transition: opacity 300ms, transform 300ms
+
+.line
+  @media (min-width: $sm)
+    // antd small date picker height(24px/2)
+    transform: translateY(12px)
+    transition: all 600ms

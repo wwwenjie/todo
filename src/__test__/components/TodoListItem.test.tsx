@@ -85,7 +85,8 @@ describe('ToListItem test', () => {
       // only this will change state async, need to use act to avoid warning
       await act(async () => {
         fireEvent.blur(screen.getByTestId('test-div'))
-        await new Promise(resolve => setTimeout(resolve, 200))
+        // add time for css transition
+        await new Promise(resolve => setTimeout(resolve, 2000))
       })
       expect(screen.queryByTestId('test-date')).toBe(null)
     })

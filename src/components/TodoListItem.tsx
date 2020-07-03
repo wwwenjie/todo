@@ -3,6 +3,7 @@ import { List, Button, Input, Tooltip, Popconfirm, DatePicker } from 'antd'
 import { Task } from '../App'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons/lib'
 import moment from 'moment'
+import { CSSTransition } from 'react-transition-group'
 
 const { RangePicker } = DatePicker
 
@@ -25,12 +26,12 @@ const TodoListItem: React.FC<Props> = (Props) => {
 
   return (
     <List.Item className='todo-list-item'>
-      <div className='d-flex justify-space-between align-center todo-list-item-container'>
+      <div className='d-flex justify-space-between todo-list-item-container'>
         <Button
           data-testid='test-status-button'
           shape='circle'
           icon={<CheckOutlined style={{ color: 'white' }} />}
-          className={Props.task.completed ? 'todo-list-item-button-complete' : 'todo-list-item-button-todo'}
+          className={`todo-list-item-button-${Props.task.completed ? 'complete' : 'todo'} ${(showDateState || Props.task.expiredDate !== undefined) ? 'line' : ''}`}
           onClick={() => {
             Props.onStatusChange(Props.task.uuid)
           }}
@@ -74,7 +75,12 @@ const TodoListItem: React.FC<Props> = (Props) => {
                 setValueState(e.target.value)
               }}
             />
-            {(showDateState || Props.task.expiredDate !== undefined) &&
+            <CSSTransition
+              in={showDateState || Props.task.expiredDate !== undefined}
+              unmountOnExit
+              timeout={200}
+              classNames='alert'
+            >
               <RangePicker
                 data-testid='test-date'
                 inputReadOnly
@@ -100,7 +106,8 @@ const TodoListItem: React.FC<Props> = (Props) => {
                   task.expiredDate = new Date(dateStrings[1])
                   Props.onSave(task)
                 }}
-              />}
+              />
+            </CSSTransition>
           </div>
         </Tooltip>
         <Popconfirm
@@ -117,6 +124,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
             shape='circle'
             icon={<CloseOutlined />}
             danger
+            className={`${(showDateState || Props.task.expiredDate !== undefined) ? 'line' : ''}`}
           />
         </Popconfirm>
       </div>

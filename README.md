@@ -10,7 +10,7 @@ A todo list built by React, a test of WuYuan front end
 - [x] TypeScript
 - [x] Responsive
 - [x] Serverless
-- [ ] Unit Tests
+- [x] Unit Tests
 
 ## Requirements
 
