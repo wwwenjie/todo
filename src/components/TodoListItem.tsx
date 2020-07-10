@@ -102,7 +102,12 @@ const TodoListItem: React.FC<Props> = (Props) => {
                     Props.onSave(task)
                     return
                   }
-                  task.createDate = new Date(dateStrings[0])
+                  // task.createDate: 2020-07-10T21:10:55.000Z
+                  // dateStrings[0]: 2020-07-10
+                  // avoid messing up the order when createDate is not modified
+                  if (task.createDate.toString().substring(0, 10) !== dateStrings[0]) {
+                    task.createDate = new Date(dateStrings[0])
+                  }
                   task.expiredDate = new Date(dateStrings[1])
                   Props.onSave(task)
                 }}
