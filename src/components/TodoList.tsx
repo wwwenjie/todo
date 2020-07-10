@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { List, Card, Button, Input } from 'antd'
+import { List, Card, Button, Input, Empty } from 'antd'
 import TodoListItem from './TodoListItem'
 import { Task } from '../App'
 import { DownOutlined, RightOutlined } from '@ant-design/icons/lib'
@@ -22,6 +22,7 @@ const TodoList: React.FC<Props> = (Props) => {
     return (
       /* eslint-disable react/jsx-handler-names */
       <List
+        locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='No Tasks' /> }}
         size='large'
         dataSource={Props.taskList.filter(task => {
           return (Props.inProgress ? !task.completed : task.completed) && task.name.match(searchValueState)
