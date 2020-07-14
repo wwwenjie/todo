@@ -14,15 +14,15 @@ interface Props {
   onSave: (task: Task) => void
 }
 
-const TodoListItem: React.FC<Props> = (Props) => {
+const TodoListItem: React.FC<Props> = (props: Props) => {
   const [valueState, setValueState] = useState<string>('')
   const [showDateState, setShowDateState] = useState<boolean>(false)
   const [dateFocusState, setDateFocusState] = useState<boolean>(false)
   const inputRef = useRef<Input>(null)
 
   useEffect(() => {
-    setValueState(Props.task.name)
-  }, [Props.task.name])
+    setValueState(props.task.name)
+  }, [props.task.name])
 
   return (
     <List.Item className='todo-list-item'>
@@ -31,9 +31,9 @@ const TodoListItem: React.FC<Props> = (Props) => {
           data-testid='test-status-button'
           shape='circle'
           icon={<CheckOutlined style={{ color: 'white' }} />}
-          className={`todo-list-item-button-${Props.task.completed ? 'complete' : 'todo'} ${(showDateState || Props.task.expiredDate !== undefined) ? 'line' : ''}`}
+          className={`todo-list-item-button-${props.task.completed ? 'complete' : 'todo'} ${(showDateState || props.task.expiredDate !== undefined) ? 'line' : ''}`}
           onClick={() => {
-            Props.onStatusChange(Props.task.uuid)
+            props.onStatusChange(props.task.uuid)
           }}
         />
         <Tooltip placement='topLeft' title='Edit Task' color='purple'>
@@ -57,18 +57,18 @@ const TodoListItem: React.FC<Props> = (Props) => {
           >
             <Input
               ref={inputRef}
-              defaultValue={Props.task.name}
+              defaultValue={props.task.name}
               value={valueState}
               type='text'
-              className={`todo-list-item-input ${Props.task.completed ? 'text-decoration-line-through grey--text' : ''}`}
+              className={`todo-list-item-input ${props.task.completed ? 'text-decoration-line-through grey--text' : ''}`}
               onPressEnter={() => {
                 inputRef.current?.blur()
               }}
               onBlur={() => {
-                if (valueState !== Props.task.name) {
-                  const task: Task = Object.assign({}, Props.task)
+                if (valueState !== props.task.name) {
+                  const task: Task = Object.assign({}, props.task)
                   task.name = valueState
-                  Props.onSave(task)
+                  props.onSave(task)
                 }
               }}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +76,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
               }}
             />
             <CSSTransition
-              in={showDateState || Props.task.expiredDate !== undefined}
+              in={showDateState || props.task.expiredDate !== undefined}
               unmountOnExit
               timeout={200}
               classNames='alert'
@@ -87,7 +87,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
                 size='small'
                 bordered={false}
                 // if there isn't expired date, moment.js will set it to now
-                defaultValue={[moment(Props.task.createDate), moment(Props.task.expiredDate)]}
+                defaultValue={[moment(props.task.createDate), moment(props.task.expiredDate)]}
                 // sm and down con not hold the date picker
                 className='hidden-sm-and-down ml-1'
                 // status: if panel is open
@@ -95,11 +95,11 @@ const TodoListItem: React.FC<Props> = (Props) => {
                   setDateFocusState(status)
                 }}
                 onChange={(dates, dateStrings) => {
-                  const task: Task = Object.assign({}, Props.task)
+                  const task: Task = Object.assign({}, props.task)
                   // when click clear, set expired date to undefined but keep create date for sort list
                   if (dates === null) {
                     task.expiredDate = undefined
-                    Props.onSave(task)
+                    props.onSave(task)
                     return
                   }
                   // task.createDate: 2020-07-10T21:10:55.000Z
@@ -109,7 +109,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
                     task.createDate = new Date(dateStrings[0])
                   }
                   task.expiredDate = new Date(dateStrings[1])
-                  Props.onSave(task)
+                  props.onSave(task)
                 }}
               />
             </CSSTransition>
@@ -121,7 +121,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
           okText='Yes'
           cancelText='No'
           onConfirm={() => {
-            Props.onDelete(Props.task.uuid)
+            props.onDelete(props.task.uuid)
           }}
         >
           <Button
@@ -129,7 +129,7 @@ const TodoListItem: React.FC<Props> = (Props) => {
             shape='circle'
             icon={<CloseOutlined />}
             danger
-            className={`${(showDateState || Props.task.expiredDate !== undefined) ? 'line' : ''}`}
+            className={`${(showDateState || props.task.expiredDate !== undefined) ? 'line' : ''}`}
           />
         </Popconfirm>
       </div>

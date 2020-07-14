@@ -12,13 +12,13 @@ interface Props {
   handleSubmit: (task: Task) => void
 }
 
-const TodoForm: React.FC<Props> = (Props) => {
+const TodoForm: React.FC<Props> = (props: Props) => {
   // const tasks = useSelector((state: TaskState) => state.tasks)
   // const dispatch = useDispatch()
   const [form] = Form.useForm()
 
   const onFinish = (): void => {
-    Props.handleSubmit({
+    props.handleSubmit({
       uuid: uuidv4(),
       name: form.getFieldValue('taskName'),
       completed: false,
@@ -45,7 +45,7 @@ const TodoForm: React.FC<Props> = (Props) => {
           >
             <Input
               type='text'
-              placeholder={Props.placeholder}
+              placeholder={props.placeholder}
               size='large'
               allowClear
             />
@@ -61,7 +61,7 @@ const TodoForm: React.FC<Props> = (Props) => {
             htmlType='submit'
             className='todo-input-button'
           >
-            {Props.buttonText}
+            {props.buttonText}
           </Button>
         </Col>
       </Row>

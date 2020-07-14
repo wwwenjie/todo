@@ -14,38 +14,51 @@ interface Props {
   onSave: (task: Task) => void
 }
 
-const TodoList: React.FC<Props> = (Props) => {
+interface ListProps {
+  taskList: Task[]
+  inProgress: boolean
+  onStatusChange: (uuid: string) => void
+  onDelete: (uuid: string) => void
+  onSave: (task: Task) => void
+}
+
+interface CountProps {
+  taskList: Task[]
+  inProgress: boolean
+}
+
+const TodoList: React.FC<Props> = (props: Props) => {
   const [show, setShow] = useState<boolean>(true)
   const [searchValueState, setSearchValueState] = useState<string>('')
 
-  const CardList: React.FC = () => {
+  const CardList: React.FC<ListProps> = (props: ListProps) => {
     return (
       /* eslint-disable react/jsx-handler-names */
       <List
         locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='No Tasks' /> }}
         size='large'
-        dataSource={Props.taskList.filter(task => {
-          return (Props.inProgress ? !task.completed : task.completed) && task.name.match(searchValueState)
+        dataSource={props.taskList.filter(task => {
+          return (props.inProgress ? !task.completed : task.completed) && task.name.match(searchValueState)
         })}
         renderItem={task => (
           <TodoListItem
             task={task}
-            onStatusChange={Props.onStatusChange}
-            onDelete={Props.onDelete}
-            onSave={Props.onSave}
+            onStatusChange={props.onStatusChange}
+            onDelete={props.onDelete}
+            onSave={props.onSave}
           />
         )}
       />
     )
   }
 
-  const CardCount: React.FC = () => {
+  const CardCount: React.FC<CountProps> = (props: CountProps) => {
     return (
-      <span>{Props.taskList.reduce((acc, cur) => {
-        if (Props.inProgress &&
+      <span>{props.taskList.reduce((acc, cur) => {
+        if (props.inProgress &&
           !cur.completed &&
           cur.name.match(searchValueState) !== null) return ++acc
-        if (!Props.inProgress &&
+        if (!props.inProgress &&
           cur.completed &&
           cur.name.match(searchValueState) !== null) return ++acc
         return acc
@@ -63,7 +76,7 @@ const TodoList: React.FC<Props> = (Props) => {
             onClick={() => { setShow(!show) }}
           >
             {show ? <DownOutlined /> : <RightOutlined />}
-            {Props.cardTitle}
+            {props.cardTitle}
           </Button>
           <Input
             allowClear
@@ -77,9 +90,26 @@ const TodoList: React.FC<Props> = (Props) => {
         </div>
       }
       // completed list behind todo list
-      className={Props.inProgress ? 'mt-n4 mt-sm-0' : 'mt-2 mt-sm-6 mt-md-8 mt-lg-10'}
+      className={props.inProgress ? 'mt-n4 mt-sm-0' : 'mt-2 mt-sm-6 mt-md-8 mt-lg-10'}
     >
-      {show ? <CardList /> : <CardCount />}
+      {
+        show
+          ? (
+            <CardList
+              taskList={props.taskList}
+              inProgress={props.inProgress}
+              onStatusChange={props.onStatusChange}
+              onDelete={props.onDelete}
+              onSave={props.onSave}
+            />
+          )
+          : (
+            <CardCount
+              taskList={props.taskList}
+              inProgress={props.inProgress}
+            />
+          )
+      }
     </Card>
   )
 }
