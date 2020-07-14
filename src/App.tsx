@@ -6,6 +6,8 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 import BackButton from './components/BackButton'
 import { getTaskListStorage, setTaskListStorage } from './utils/storage'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 export interface Task {
   uuid: string
@@ -110,26 +112,28 @@ const App: React.FC = () => {
 
   return (
     // v-application: enable css utils in vuetify
-    <Row
-      className='v-application'
-      justify='center'
-      align='top'
-      gutter={[0, { xs: 8, sm: 16, md: 24, lg: 32 }]}
-    >
-      {componentList.map((component, index) => {
-        return (
-          <Col
-            key={index}
-            xs={22}
-            sm={20}
-            md={18}
-            lg={16}
-          >
-            {component}
-          </Col>
-        )
-      })}
-    </Row>
+    <Provider store={store}>
+      <Row
+        className='v-application'
+        justify='center'
+        align='top'
+        gutter={[0, { xs: 8, sm: 16, md: 24, lg: 32 }]}
+      >
+        {componentList.map((component, index) => {
+          return (
+            <Col
+              key={index}
+              xs={22}
+              sm={20}
+              md={18}
+              lg={16}
+            >
+              {component}
+            </Col>
+          )
+        })}
+      </Row>
+    </Provider>
   )
 }
 

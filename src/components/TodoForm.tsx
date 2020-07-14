@@ -1,7 +1,10 @@
 import React from 'react'
 import { Form, Row, Col, Button, Input } from 'antd'
-import { Task } from '../App'
 import { v4 as uuidv4 } from 'uuid'
+import { Task } from '../App'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { TaskState, Task } from '../redux/types'
+// import { addTask } from '../redux/actions'
 
 interface Props {
   placeholder: string
@@ -10,6 +13,8 @@ interface Props {
 }
 
 const TodoForm: React.FC<Props> = (Props) => {
+  // const tasks = useSelector((state: TaskState) => state.tasks)
+  // const dispatch = useDispatch()
   const [form] = Form.useForm()
 
   const onFinish = (): void => {
@@ -19,6 +24,8 @@ const TodoForm: React.FC<Props> = (Props) => {
       completed: false,
       createDate: new Date()
     })
+    // test handle in redux
+    // dispatch(addTask(form.getFieldValue('taskName')))
     form.resetFields()
   }
 
@@ -27,6 +34,7 @@ const TodoForm: React.FC<Props> = (Props) => {
       form={form}
       onFinish={onFinish}
     >
+      {/* {JSON.stringify(tasks)} */}
       <Row
         justify='space-between'
       >
